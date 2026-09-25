@@ -1,20 +1,32 @@
 {
   "name": "@pipeworx/mcp-leadconnector",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "LeadConnector / GoHighLevel MCP Pack — wraps the GoHighLevel CRM for AI agents.",
   "type": "module",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "bin": {
+    "mcp-leadconnector": "bin/cli.js"
+  },
   "keywords": ["mcp", "mcp-server", "model-context-protocol", "pipeworx", "leadconnector"],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pipeworx-io/mcp-leadconnector"
+    "url": "git+https://github.com/pipeworx-io/mcp-leadconnector.git"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "tsx": "^4.19.0"
+  },
   "devDependencies": {
-    "typescript": "^5.7.0"
+    "typescript": "^5.9.3",
+    "@cloudflare/workers-types": "^4.20260405.1"
+  },
+  "pipeworx": {
+    "sourceHash": "v1-b48666e5cd63e4061d649068aefc81156480c0f1435f6ea842789aaed40783d4",
+    "sourceCommit": "adb69d997f82a62e8e22b594488c7d04a227db35"
   }
 }

@@ -2,17 +2,17 @@
 
 LeadConnector / GoHighLevel MCP Pack — wraps the GoHighLevel CRM for AI agents.
 
-Part of [Pipeworx](https://pipeworx.io) — an MCP gateway connecting AI agents to 1476+ live data sources.
+Part of [Pipeworx](https://pipeworx.io) — an MCP gateway connecting AI agents to 1679+ live data sources.
 
 ## Tools
 
 | Tool | Description |
 |------|-------------|
-| `leadconnector_list_contacts` | Search or list CRM contacts in a GoHighLevel/LeadConnector account. Free-text query matches name, email, or phone. Returns a {contacts:[...], meta} envelope with contact IDs, names, emails, phones, tags, and custom fields. |
-| `leadconnector_get_contact` | Fetch a single CRM contact by its contact ID. Returns full detail: name, email, phone, tags, source, custom fields, and timestamps. |
-| `leadconnector_list_pipelines` | List all sales pipelines and their stages in the account. Returns a {pipelines:[...]} envelope with pipeline IDs, names, and ordered stages. Use the returned pipeline ID with leadconnector_list_opportunities. |
-| `leadconnector_list_opportunities` | List opportunities (pipeline deals) for a given pipeline. Requires a pipelineId (get one from leadconnector_list_pipelines). Returns deals with monetary value, stage, status, and the associated contact. |
-| `leadconnector_list_campaigns` | List marketing/automation campaigns in the account. Returns a {campaigns:[...]} envelope with campaign IDs, names, and status. Useful for finding a campaign to attribute or enroll contacts. |
+| `leadconnector_list_contacts` | Search or list CRM contacts in a GoHighLevel/LeadConnector account. Free-text query matches name, email, or phone. Returns a {contacts:[...], meta} envelope with contact IDs, names, emails, phones, tags, and custom fields. Requires your own GoHighLevel token via _apiKey (plus locationId for a v2 `pit-` token). |
+| `leadconnector_get_contact` | Fetch a single CRM contact by its contact ID. Returns full detail: name, email, phone, tags, source, custom fields, and timestamps. Requires your own GoHighLevel token via _apiKey (plus locationId for a v2 `pit-` token). |
+| `leadconnector_list_pipelines` | List all sales pipelines and their stages in the account. Returns a {pipelines:[...]} envelope with pipeline IDs, names, and ordered stages. Use the returned pipeline ID with leadconnector_list_opportunities. Requires your own GoHighLevel token via _apiKey (plus locationId for a v2 `pit-` token). |
+| `leadconnector_list_opportunities` | List opportunities (pipeline deals) for a given pipeline. Requires a pipelineId (get one from leadconnector_list_pipelines). Returns deals with monetary value, stage, status, and the associated contact. Requires your own GoHighLevel token via _apiKey (plus locationId for a v2 `pit-` token). |
+| `leadconnector_list_campaigns` | List marketing/automation campaigns in the account. Returns a {campaigns:[...]} envelope with campaign IDs, names, and status. Useful for finding a campaign to attribute or enroll contacts. Requires your own GoHighLevel token via _apiKey (plus locationId for a v2 `pit-` token). |
 
 ## Quick Start
 
@@ -58,9 +58,39 @@ directly, instead of just this one's:
 }
 ```
 
-Both URLs reach the same gateway and the same 1476+ data sources. The
+Both URLs reach the same gateway and the same 1679+ data sources. The
 only difference is which pack's tools are listed **directly**; `ask_pipeworx`
 reaches all of them from either one.
+
+## No MCP client? Call it over HTTP
+
+This pack takes your own API key (`_apiKey`) — we don't front one for it, so there's no curl here that would run without it. Inspect any tool: `GET https://gateway.pipeworx.io/v1/tools/leadconnector_list_contacts`. Find one: `POST https://gateway.pipeworx.io/v1/tools/search_packs` with `{"query":"..."}`.
+
+## Standalone (no gateway account)
+
+This package also runs as a local stdio MCP server — no Pipeworx account, no
+gateway round-trip:
+
+```json
+{
+  "mcpServers": {
+    "leadconnector": {
+      "command": "npx",
+      "args": ["-y", "@pipeworx/mcp-leadconnector"]
+    }
+  }
+}
+```
+
+Or run it directly to confirm it starts:
+
+```bash
+npx -y @pipeworx/mcp-leadconnector
+```
+
+It speaks MCP over stdin/stdout and answers `initialize`/`tools/list`/`tools/call`
+for **only** this pack's tools — none of the shared meta-tools the gateway
+connection above adds. Same source, same tools, no ask_pipeworx routing.
 
 ## Using with ask_pipeworx
 
@@ -81,7 +111,3 @@ The gateway picks the right tool and fills the arguments automatically.
 ## License
 
 MIT
-
-## No MCP client? Call it over HTTP
-
-This pack takes your own API key (`_apiKey`) — we don't front one for it, so there's no curl here that would run without it. Inspect any tool: `GET https://gateway.pipeworx.io/v1/tools/leadconnector_list_contacts`. Find one: `POST https://gateway.pipeworx.io/v1/tools/search_packs` with `{"query":"..."}`.

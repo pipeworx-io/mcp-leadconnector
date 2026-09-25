@@ -3,7 +3,7 @@
   "name": "io.github.pipeworx-io/leadconnector",
   "title": "Leadconnector",
   "description": "LeadConnector / GoHighLevel MCP Pack — wraps the GoHighLevel CRM for AI agents.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "websiteUrl": "https://pipeworx.io/packs/leadconnector",
   "repository": {
     "url": "https://github.com/pipeworx-io/mcp-leadconnector",
